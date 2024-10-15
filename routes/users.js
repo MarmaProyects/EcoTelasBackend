@@ -1,25 +1,35 @@
 const express = require('express');
 const User = require('../models/User');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-  var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+  try {
+    if (!req.body.password) {
+      return res.status(400).send("Password is required");
+    };
 
-  User.create(
-    {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+
+    const user = await User.create({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
-    },
-    function (err, user) {
-      if (err) return res.status(500).send("Error");
-      var token = jwt.sign({ id: user._id }, config.secret, {
-        expiresIn: 86400, // expira en 24 hours
-      });
-      res.status(200).send({ auth: true, token: token });
-    }
-  );
+    });
+
+    const token = jwt.sign({ id: user._id }, config.secret, {
+      expiresIn: 86400,
+    });
+
+    res.status(200).send({ auth: true, token: token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error during registration");
+  }
+
 });
 
 

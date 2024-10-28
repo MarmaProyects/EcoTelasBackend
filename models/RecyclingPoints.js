@@ -10,7 +10,6 @@ const PointSchema = new mongoose.Schema({
     lat: {
         type: Number,
         required: true,
-        unique: true,
         min: -90,
         max: 90
 
@@ -18,7 +17,6 @@ const PointSchema = new mongoose.Schema({
     lng: {
         type: Number,
         required: true,
-        unique: true,
         min: -180,
         max: 180
     },

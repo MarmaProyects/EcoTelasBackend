@@ -32,29 +32,27 @@ router.post('/register', async (req, res) => {
 
 });
 
-
-router.post("/login", function (req, res) {
-  User.findOne(
-    {
-      email: req.body.email,
-    },
-    function (err, user) {
-      if (err) return res.status(500).send("Error");
-      if (!user) {
-        return res.status(404).send({ auth: false, message: "Usuario no encontrado" });
-      }
-      if (!bcrypt.compareSync(req.body.password, user.password)) {
-        return res
-          .status(401)
-          .send({ auth: false, message: "Contraseña incorrecta" });
-      }
-      var token = jwt.sign({ id: user._id }, config.secret, {
-        expiresIn: 86400,
-      });
-      res.cookie("auth_token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
-      res.status(200).send({ auth: true });
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).send({ auth: false, message: "Usuario no encontrado" });
     }
-  );
+
+    if (!bcrypt.compareSync(req.body.password, user.password)) {
+      return res.status(401).send({ auth: false, message: "Contraseña incorrecta" });
+    }
+
+    let token = jwt.sign({ id: user._id }, config.secret, {
+      expiresIn: 86400,
+    });
+
+    res.status(200).send({ auth: true, token: token });
+
+  } catch (err) {
+    res.status(500).send("Error en el servidor" + err.message);
+  }
+
 });
 
 router.get("/me", function (req, res) {

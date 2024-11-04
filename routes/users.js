@@ -3,6 +3,7 @@ const User = require('../models/User');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const VerifyToken = require("../routes/VerifyToken");
 
 const router = express.Router();
 
@@ -55,17 +56,15 @@ router.post("/login", async (req, res) => {
 
 });
 
-router.get("/me", function (req, res) {
-  var token = req.cookies.auth_token;
-  if (!token)
-    return res.status(401).send({ auth: false, message: "Sin token" });
-  jwt.verify(token, config.secret, function (err, decoded) {
-    if (err)
-      return res
-        .status(500)
-        .send({ auth: false, message: "Error de autenticacion" });
-    res.status(200).send(decoded);
-  });
+router.get("/me", VerifyToken, async function (req, res, next) {
+  try {
+    const user = await User.findById(req.userId, { password: 0 });
+    if (!user) return res.status(404).send("No existe el usuario.");
+    res.status(200).send(user);
+  } catch (err) {
+    return res.status(500).send("Error al encontrar usuario.");
+  }
 });
+
 
 module.exports = router;

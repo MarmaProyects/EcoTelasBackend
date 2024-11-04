@@ -16,8 +16,8 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000',  // Dirección del frontend
-  credentials: true,  // Si usas cookies, aunque en este caso es solo para tokens
+  origin: 'http://localhost:3000',
+  credentials: true,
 }));
 
 app.use(cookieParser());

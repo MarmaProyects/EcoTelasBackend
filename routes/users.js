@@ -9,6 +9,15 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
   try {
+    if (!req.body.name) {
+      return res.status(400).json({ error: "Se necesita ingresar un nombre" });
+    };
+    if (!req.body.surname) {
+      return res.status(400).json({ error: "Se necesita ingresar un apellido" });
+    }
+    if (!req.body.email) {
+      return res.status(400).json({ error: "Se necesita ingresar un email" });
+    };
     if (!req.body.password) {
       return res.status(400).send("Password is required");
     };
@@ -17,6 +26,7 @@ router.post('/register', async (req, res) => {
 
     const user = await User.create({
       name: req.body.name,
+      surname: req.body.surname,
       email: req.body.email,
       password: hashedPassword,
     });

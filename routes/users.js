@@ -70,11 +70,12 @@ router.get("/me", VerifyToken, async function (req, res, next) {
   try {
     const user = await User.findById(req.userId, { password: 0 });
     if (!user) return res.status(404).send("No existe el usuario.");
-    res.status(200).send(user);
+    res.status(200).json(user);
   } catch (err) {
     return res.status(500).send("Error al encontrar usuario.");
   }
 });
+
 
 
 module.exports = router;

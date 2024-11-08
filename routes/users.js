@@ -12,6 +12,9 @@ router.post('/register', async (req, res) => {
     if (!req.body.name) {
       return res.status(400).json({ error: "Se necesita ingresar un nombre" });
     };
+    if (!req.body.surname) {
+      return res.status(400).json({ error: "Se necesita ingresar un apellido" });
+    }
     if (!req.body.email) {
       return res.status(400).json({ error: "Se necesita ingresar un email" });
     };
@@ -28,6 +31,7 @@ router.post('/register', async (req, res) => {
 
     const user = await User.create({
       name: req.body.name,
+      surname: req.body.surname,
       email: req.body.email,
       password: hashedPassword,
     });
@@ -71,11 +75,12 @@ router.get("/me", VerifyToken, async function (req, res, next) {
   try {
     const user = await User.findById(req.userId, { password: 0 });
     if (!user) return res.status(404).send("No existe el usuario.");
-    res.status(200).send(user);
+    res.status(200).json(user);
   } catch (err) {
     return res.status(500).send("Error al encontrar usuario.");
   }
 });
+
 
 
 module.exports = router;

@@ -4,7 +4,22 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
+    minlength: 3,
+    maxlength: 20,
+  },
+  surname: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 20,
+  },
+  phone: {
+    type: String,
+    minlength: 10,
+    maxlength: 10,
+  },
+  address: {
+    type: String,
     minlength: 3,
     maxlength: 20,
   },
@@ -23,6 +38,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'company'],
     default: 'user',
+  },
+  points: {
+    type: Number,
+    default: 0,
   },
   createdAt: {
     type: Date,

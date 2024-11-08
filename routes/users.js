@@ -12,6 +12,9 @@ router.post('/register', async (req, res) => {
     if (!req.body.name) {
       return res.status(400).json({ error: "Se necesita ingresar un nombre" });
     };
+    if (!req.body.surname) {
+      return res.status(400).json({ error: "Se necesita ingresar un apellido" });
+    }
     if (!req.body.email) {
       return res.status(400).json({ error: "Se necesita ingresar un email" });
     };

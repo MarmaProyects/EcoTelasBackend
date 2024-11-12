@@ -81,6 +81,29 @@ router.get("/me", VerifyToken, async function (req, res, next) {
   }
 });
 
+router.put('/update', VerifyToken, async (req, res) => {
+  try {
+    const { name, surname, phone, address } = req.body;
+    console.log(req.body);
+    const user = await User.findById(req.userId);
+    console.log(user);
+    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+    user.name = name || user.name;
+    user.surname = surname || user.surname;
+    user.phone = phone || user.phone;
+    user.address = address || user.address;
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    console.error("Error al actualizar usuario:", err);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+});
+
+
 
 
 module.exports = router;

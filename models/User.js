@@ -15,8 +15,8 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    minlength: 10,
-    maxlength: 10,
+    minlength: 9,
+    maxlength: 9,
   },
   address: {
     type: String,

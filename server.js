@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const userRoutes = require('./routes/users');
 const eventsRoutes = require('./routes/events');
 const pointsRoutes = require('./routes/points');
+const companyRoutes = require('./routes/company');
+const textileRoutes = require('./routes/textiletype');
 const cors = require('cors');
 
 dotenv.config();
@@ -24,6 +26,8 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/recycling-points', pointsRoutes);
 app.use('/api/events', eventsRoutes);
+app.use('/api/textiles', textileRoutes);
+app.use('/api/company', companyRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

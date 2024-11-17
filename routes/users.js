@@ -34,6 +34,7 @@ router.post('/register', async (req, res) => {
       surname: req.body.surname,
       email: req.body.email,
       password: hashedPassword,
+      role: req.body.role
     });
 
     const token = jwt.sign({ id: user._id }, config.secret, {

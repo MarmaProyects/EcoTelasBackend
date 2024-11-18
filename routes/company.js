@@ -40,4 +40,13 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    try {
+        const company = await Company.find({ owners: req.body.owner });
+        res.json(company);
+    } catch (error) {
+        res.status(500).send("Error obteniendo las compañias");
+    }
+});
+
 module.exports = router;

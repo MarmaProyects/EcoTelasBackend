@@ -1,0 +1,72 @@
+<html lang='en'>
+
+<head>
+  <title>ReVistete</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.orange.min.css' />
+  <style>
+    img {
+      width: 50%;
+      margin: 0 auto 2em auto;
+      display: block
+    }
+
+    h1 {
+      margin: 0
+    }
+
+    footer {
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    footer {
+      padding:
+        2em 0;
+    }
+
+    @media(min-width: 1024px) {
+      img {
+        width: 35%;
+      }
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .reset-btn {
+      background-color:
+        var(--pico-primary);
+      color: white;
+      text-decoration: none;
+      padding: 1em 2em;
+      font-weight: 500;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class='container'>
+  <header>
+    <img src='../../logo.png' alt='Re Vistete logo'
+      style="display: block; margin: 0 auto 2em auto;" />
+    <h1>{{title}}</h1>
+  </header>
+  <main>
+    <p class='--pico-background-color'>
+      {{content}}
+    </p>
+  </main>
+  <footer style="text-align: center; padding: 2em 0;">
+    <p style="margin: 0;">Re Vistete</p> 
+  </footer> 
+</body>
+
+</html>

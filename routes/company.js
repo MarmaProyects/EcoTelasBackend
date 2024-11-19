@@ -49,4 +49,39 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.put('/update/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, location, lat, lng, textileTypeIds, recolectionService, recolectionSchedule, companySchedule } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ error: "Falta el ID de la compañía" });
+        }
+
+        const updatedCompany = await Company.findByIdAndUpdate(
+            id,
+            {
+                name,
+                location,
+                lat,
+                lng,
+                textileTypes: textileTypeIds,
+                recolectionService,
+                recolectionSchedule,
+                companySchedule
+            },
+        );
+
+        if (!updatedCompany) {
+            return res.status(404).json({ error: "Compañía no encontrada" });
+        }
+
+        res.json({ message: "Compañía actualizada exitosamente", company: updatedCompany });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error en el servidor: " + error.message });
+    }
+});
+
+
 module.exports = router;
